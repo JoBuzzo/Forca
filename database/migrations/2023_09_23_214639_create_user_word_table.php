@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('word_id');
 
-            $table->integer('scorer')->default(100);
+            $table->integer('score')->default(100);
 
             $table->integer('rating')->nullable();
 
