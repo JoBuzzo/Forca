@@ -33,4 +33,47 @@ class WordController extends Controller
 
         return redirect()->route('word.index');
     }
+
+    public function edit(string $id)
+    {
+        if(!$word = Word::find($id)){
+            return redirect()->route('word.index');
+        }
+
+        return view('word.edit', ['word' => $word]);
+    }
+
+
+    public function update(Request $request, string $id)
+    {
+        if(!$word = Word::find($id)){
+            return redirect()->route('word.index');
+        }
+
+        $request->validate([
+            'word' => ['required', 'min:5', 'max:30'],
+            'category' => ['required'],
+        ]);
+
+        $word->update([
+            'word' => $request->word
+        ]);
+
+        $word->categories()->sync($request->category);
+
+        return redirect()->route('word.edit', $word->id);
+    }
+
+    public function destroy(string $id)
+    {
+        if(!$word = Word::find($id)){
+            return redirect()->route('word.index');
+        }
+
+        $word->categories()->detach();
+
+        $word->delete();
+
+        return redirect()->route('word.index');
+    }
 }

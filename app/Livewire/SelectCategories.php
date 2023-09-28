@@ -4,22 +4,24 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use Livewire\Component;
+use Illuminate\Support\Collection;
 
 class SelectCategories extends Component
 {
 
     public bool $show;
 
-    public $selecteds = [];
+    public $selecteds;
     public function render()
     {
         return view('livewire.select-categories', [
             'categories' => Category::all()
         ]);
     }
-    public function mount()
+    public function mount(Collection $selecteds)
     {
         $this->show = false;
+        $this->selecteds = $selecteds;
     }
 
     public function x_show()
@@ -29,13 +31,14 @@ class SelectCategories extends Component
 
     public function x_selecteds(Category $category)
     {
-        if (in_array($category, $this->selecteds)) {
-            $index = array_search($category, $this->selecteds);
+        if ($this->selecteds->contains($category)) {
+            $index = $this->selecteds->search($category);
+
             if ($index !== false) {
-                unset($this->selecteds[$index]);
+                $this->selecteds->forget($index);
             }
-        }else{
-            $this->selecteds[] = $category;
+        } else {
+            $this->selecteds->push($category);
         }
     }
 }

@@ -65,7 +65,7 @@
                                                 {{ $word->updated_at->diffForHumans() }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <a href="{{ route('category.edit', $word->id) }}"
+                                                <a href="{{ route('word.edit', $word->id) }}"
                                                     class="text-blue-500 hover:underline">Vizualizar</a>
                                             </td>
                                         </tr>
