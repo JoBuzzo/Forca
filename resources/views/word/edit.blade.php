@@ -55,7 +55,7 @@
                     <div class="relative space-y-2 overflow-x-auto">
 
                         @if (count($word->tips) > 0)
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table class="text-sm text-left text-gray-500 dark:text-gray-400 w-84">
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
@@ -76,8 +76,7 @@
                                 <tbody>
                                     @foreach ($word->tips as $tip)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <th scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <th class="px-2 py-4 font-medium text-gray-900 truncate dark:text-white">
                                                 {{ $tip->tip }}
                                             </th>
                                             <td class="px-6 py-4">
@@ -87,7 +86,7 @@
                                                 {{ $tip->updated_at->diffForHumans() }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <a href="{{ route('word.edit', $tip->id) }}"
+                                                <a href="{{ route('tip.edit', $tip->id) }}"
                                                     class="text-blue-500 hover:underline">Vizualizar</a>
                                             </td>
                                         </tr>
@@ -108,7 +107,7 @@
                         @method('delete')
 
                         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Você tem certeza que deseja excluir esta categoria?
+                            Você tem certeza que deseja excluir esta Palavra?
                         </h2>
 
                         <div class="flex justify-end mt-6">

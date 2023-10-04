@@ -71,6 +71,8 @@ class WordController extends Controller
         }
 
         $word->categories()->detach();
+        
+        $word->tips()->delete();
 
         $word->delete();
 
