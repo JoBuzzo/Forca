@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TipController;
 use App\Http\Controllers\WordController;
 use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,10 @@ Route::resource('category', CategoryController::class)
     ->middleware(['auth', 'verified', Admin::class]);
 
 Route::resource('word', WordController::class)
+    ->except(['show', 'create'])
+    ->middleware(['auth', 'verified', Admin::class]);
+
+Route::resource('tip', TipController::class)
     ->except(['show', 'create'])
     ->middleware(['auth', 'verified', Admin::class]);
 

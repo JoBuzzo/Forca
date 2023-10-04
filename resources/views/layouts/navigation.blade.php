@@ -21,9 +21,6 @@
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index') || request()->routeIs('category.edit')">
                         Categorias
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        Dicas
-                    </x-nav-link>
                 </div>
             </div>
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Word extends Model
 {
@@ -26,5 +27,13 @@ class Word extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    
+    /**
+     * Get all of the tips for the Word
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tips(): HasMany
+    {
+        return $this->hasMany(Tip::class);
+    }
 }
