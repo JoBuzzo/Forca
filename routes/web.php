@@ -6,12 +6,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\WordController;
 use App\Http\Middleware\Admin;
+use App\Livewire\Home;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', Home::class)->name('home')->middleware('auth');
 
 
 Route::get('/admin', DashboardController::class)

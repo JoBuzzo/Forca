@@ -19,6 +19,8 @@ return new class extends Migration
 
             $table->integer('score')->default(100);
 
+            $table->boolean('finalized')->default(false);
+
             $table->integer('rating')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');

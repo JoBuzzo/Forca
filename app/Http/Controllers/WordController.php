@@ -21,12 +21,12 @@ class WordController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'word' => ['required', 'min:5', 'max:30'],
+            'word' => ['required', 'min:4', 'max:30'],
             'category' => ['required'],
         ]);
         
         $word = Word::Create([
-            'word' => $request->word
+            'word' => strtolower($request->word)
         ]);
 
         $word->categories()->sync($request->category);
@@ -51,12 +51,12 @@ class WordController extends Controller
         }
 
         $request->validate([
-            'word' => ['required', 'min:5', 'max:30'],
+            'word' => ['required', 'min:4', 'max:30'],
             'category' => ['required'],
         ]);
 
         $word->update([
-            'word' => $request->word
+            'word' => strtolower($request->word)
         ]);
 
         $word->categories()->sync($request->category);
