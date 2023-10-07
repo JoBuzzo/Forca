@@ -1,12 +1,12 @@
 <div class="flex items-center justify-center mt-20 ">
 
-    <div class="relative gap-2 p-2 overflow-x-auto rounded-sm">
+    <div class="relative gap-2 p-3 overflow-x-auto rounded-sm">
         <div class="flex items-center justify-between w-full mb-5">
             <span>Top 10 players</span>
             <div>
                 <x-primary-button wire:click='random'>Jogar</x-primary-button>
                 @if(isset($txt))
-                    <span class="absolute right-0 z-50 text-sm top-8">{{ $txt }}</span>
+                    <span class="absolute z-50 text-sm right-2 top-12">{{ $txt }}</span>
                 @endif
 
             </div>

@@ -47,12 +47,12 @@ class RandomWord extends Component
         });
 
 
-        if(!$words->isEmpty()){
+        if(!$words_without_relation->isEmpty()){
             Session::put('word_id', $words_without_relation->random()->id);
+            return redirect()->route('game');
         }else{
             $this->txt = "Sem palavras disponíveis.";
         }
 
-        return redirect()->route('game');
     }
 }
