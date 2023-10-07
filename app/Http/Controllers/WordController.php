@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use Illuminate\Support\Str;
 use App\Models\Word;
 use Illuminate\Http\Request;
 
@@ -26,7 +26,7 @@ class WordController extends Controller
         ]);
         
         $word = Word::Create([
-            'word' => strtolower($request->word)
+            'word' => Str::lower(str_replace(' ', '-', Str::ascii($request->word)))
         ]);
 
         $word->categories()->sync($request->category);
@@ -56,7 +56,7 @@ class WordController extends Controller
         ]);
 
         $word->update([
-            'word' => strtolower($request->word)
+            'word' => Str::lower(str_replace(' ', '-', Str::ascii($request->word)))
         ]);
 
         $word->categories()->sync($request->category);
