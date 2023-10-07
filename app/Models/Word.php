@@ -36,4 +36,14 @@ class Word extends Model
     {
         return $this->hasMany(Tip::class);
     }
+
+    /**
+     * The roles that belong to the Word
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->using(UserWord::class);
+    }
 }
