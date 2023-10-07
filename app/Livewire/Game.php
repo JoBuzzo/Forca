@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use App\Models\Word;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +21,7 @@ class Game extends Component
     public $tips;
     public $categories;
     public $message;
-    
+
     public function mount()
     {
         if (!$word = Word::find(Session::get('word_id'))) {
@@ -33,10 +32,13 @@ class Game extends Component
         $this->categories = $word->categories;
         $this->arrayWord = str_split($word->word, 1);
 
-        if(in_array('-', $this->arrayWord)){
+        if (in_array('-', $this->arrayWord)) {
             $this->correctLetters[] = '-';
         }
 
+        $this->correctLetters = Session::get('correctLetters') ?: array();
+        $this->errorLetters = Session::get('errorLetters') ?: array();
+        
         $userWord = DB::table('user_word')
             ->where('user_id', Auth::user()->id)
             ->where('word_id', $word->id)
@@ -48,7 +50,6 @@ class Game extends Component
                 'word_id' => $word->id,
             ]);
         }
-
     }
 
     public function verifyLetter($letter)
@@ -61,7 +62,7 @@ class Game extends Component
             if (count(array_unique($this->arrayWord)) == count($this->correctLetters)) {
                 $this->finished();
             }
-        } else if(!in_array($letter, $this->errorLetters)){
+        } else if (!in_array($letter, $this->errorLetters)) {
             $this->errorLetter($letter);
         }
     }
@@ -76,18 +77,18 @@ class Game extends Component
             ->update(['finalized' => true]);
 
 
-        //falta incrementar o total de pontos do usuario ao seu perfil
-
-
         Session::forget('word_id');
+        Session::forget('correctLetters');
+        Session::forget('errorLetters');
     }
-    
+
     protected function correctLetter($letter)
     {
         $this->message = "<span class='absolute text-green-600 top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> está correta</span>";
         $this->correctLetters[] = $letter;
+        Session::put('correctLetters', $this->correctLetters);
     }
-    
+
     protected function errorLetter($letter)
     {
         DB::table('user_word')
@@ -99,6 +100,7 @@ class Game extends Component
 
 
         $this->errorLetters[] = $letter;
-
+        Session::put('errorLetters', $this->errorLetters);
+    
     }
 }
