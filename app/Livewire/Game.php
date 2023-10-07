@@ -21,7 +21,6 @@ class Game extends Component
     public $tips;
     public $categories;
     public $message;
-
     public $chances;
     public function mount()
     {

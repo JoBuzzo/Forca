@@ -2,8 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\UserWord;
 use App\Models\Word;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
@@ -15,12 +17,24 @@ class RandomWord extends Component
     }
 
 
-
+    public $txt = '';
+    public $users;
     public function mount()
     {
+        $this->users = DB::table('user_word')
+            ->selectRaw('users.name as name, user_word.user_id, SUM(user_word.score) as total_score, users.created_at')
+            ->where('user_word.finalized', true)
+            ->join('users', 'users.id', '=', 'user_word.user_id')
+            ->groupBy('user_word.user_id', 'users.name', 'users.created_at')
+            ->orderByDesc('total_score')
+            ->limit(10)
+            ->get();
+
         if(Session::get('word_id')){
             return redirect()->route('game');
         }
+
+    
     }
     public function random()
     {
@@ -32,7 +46,12 @@ class RandomWord extends Component
             return !$word->users->contains($user);
         });
 
-        Session::put('word_id', $words_without_relation->random()->id);
+
+        if(!$words->isEmpty()){
+            Session::put('word_id', $words_without_relation->random()->id);
+        }else{
+            $this->txt = "Sem palavras disponíveis.";
+        }
 
         return redirect()->route('game');
     }

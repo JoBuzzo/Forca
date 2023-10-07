@@ -1,3 +1,48 @@
 <div class="flex items-center justify-center mt-20 ">
-    <x-primary-button wire:click='random'>Jogar</x-primary-button>
+
+    <div class="relative gap-2 p-2 overflow-x-auto rounded-sm">
+        <div class="flex items-center justify-between w-full mb-5">
+            <span>Top 10 players</span>
+            <div>
+                <x-primary-button wire:click='random'>Jogar</x-primary-button>
+                @if(isset($txt))
+                    <span class="absolute right-0 z-50 text-sm top-8">{{ $txt }}</span>
+                @endif
+
+            </div>
+        </div>
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th class="px-6 py-3">
+                        Nome
+                    </th>
+                    <th class="px-6 py-3">
+                        Pontuação
+                    </th>
+                    <th class="px-6 py-3">
+                        Entrou em:
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach ($users as $user)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ $user->name }}
+                        </th>
+                        <td class="px-6 py-4 text-center">
+                            {{ $user->total_score }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}
+                        </td>
+                    </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+    </div>
+
 </div>
