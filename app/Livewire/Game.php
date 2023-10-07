@@ -80,6 +80,8 @@ class Game extends Component
         Session::forget('word_id');
         Session::forget('correctLetters');
         Session::forget('errorLetters');
+
+        return redirect()->route('home');
     }
 
     protected function correctLetter($letter)
