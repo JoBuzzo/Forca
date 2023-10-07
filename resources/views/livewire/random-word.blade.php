@@ -2,7 +2,7 @@
 
     <div class="relative gap-2 p-3 overflow-x-auto rounded-sm">
         <div class="flex items-center justify-between w-full mb-5">
-            <span>Top 10 players</span>
+            <span>Top {{ count($users) }} players</span>
             <div>
                 <x-primary-button wire:click='random'>Jogar</x-primary-button>
                 @if(isset($txt))
@@ -21,22 +21,23 @@
                         Pontuação
                     </th>
                     <th class="px-6 py-3">
-                        Entrou em:
+                        Palavras jogadas
                     </th>
+                   
                 </tr>
             </thead>
             <tbody>
 
                 @foreach ($users as $user)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-gray-800 border-b border-gray-700">
                         <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $user->name }}
                         </th>
                         <td class="px-6 py-4 text-center">
                             {{ $user->total_score }}
                         </td>
-                        <td class="px-6 py-4">
-                            {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}
+                        <td class="px-6 py-4 text-center">
+                            {{ $user->word_count }}
                         </td>
                     </tr>
                 @endforeach

@@ -95,7 +95,7 @@ class Game extends Component
 
     protected function correctLetter($letter)
     {
-        $this->message = "<span class='absolute text-green-600 top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> está correta</span>";
+        $this->message = "<span class='absolute text-sm text-green-600 top-28 md:text-base'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> está correta</span>";
         $this->correctLetters[] = $letter;
         Session::put('correctLetters', $this->correctLetters);
     }
@@ -109,7 +109,7 @@ class Game extends Component
             ->where('word_id', Session::get('word_id'))
             ->value('score');
         
-        $this->message = "<span class='absolute text-red-600 top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
+        $this->message = "<span class='absolute text-sm text-red-600 md:text-base top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
 
         if (DB::table('user_word')->where('user_id', Auth::user()->id)->where('word_id', Session::get('word_id'))->value('score') != 0) {
             DB::table('user_word')
@@ -130,7 +130,7 @@ class Game extends Component
             Session::forget('errorLetters');
 
 
-            $this->message = "<span class='absolute text-red-600'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
+            $this->message = "<span class='absolute text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
         }
     }
 }

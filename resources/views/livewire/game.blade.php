@@ -68,7 +68,7 @@
 
     @if (!$tips->isEmpty())
         <div
-            class="flex flex-col p-4 mx-4 border border-gray-300 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 md:w-1/6">
+            class="flex flex-col p-4 mx-4 mb-6 border border-gray-300 rounded-md md:mb-0 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 md:w-1/6">
             <div class="flex items-center justify-start gap-2 mb-5">
                 <span>Dica</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

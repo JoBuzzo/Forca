@@ -22,19 +22,17 @@ class RandomWord extends Component
     public function mount()
     {
         $this->users = DB::table('user_word')
-            ->selectRaw('users.name as name, user_word.user_id, SUM(user_word.score) as total_score, users.created_at')
+            ->selectRaw('users.name as name, user_word.user_id, SUM(user_word.score) as total_score, COUNT(DISTINCT user_word.word_id) as word_count')
             ->where('user_word.finalized', true)
             ->join('users', 'users.id', '=', 'user_word.user_id')
-            ->groupBy('user_word.user_id', 'users.name', 'users.created_at')
+            ->groupBy('user_word.user_id', 'users.name')
             ->orderByDesc('total_score')
             ->limit(10)
             ->get();
 
-        if(Session::get('word_id')){
+        if (Session::get('word_id')) {
             return redirect()->route('game');
         }
-
-    
     }
     public function random()
     {
@@ -47,12 +45,11 @@ class RandomWord extends Component
         });
 
 
-        if(!$words_without_relation->isEmpty()){
+        if (!$words_without_relation->isEmpty()) {
             Session::put('word_id', $words_without_relation->random()->id);
             return redirect()->route('game');
-        }else{
+        } else {
             $this->txt = "Sem palavras disponíveis.";
         }
-
     }
 }
