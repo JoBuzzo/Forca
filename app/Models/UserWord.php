@@ -16,7 +16,6 @@ class UserWord extends Pivot
         'word_id',
         'score',
         'finalized',
-        'rating',
     ];
     
 }

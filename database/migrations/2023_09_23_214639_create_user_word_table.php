@@ -21,8 +21,6 @@ return new class extends Migration
 
             $table->boolean('finalized')->default(false);
 
-            $table->integer('rating')->nullable();
-
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->foreign('word_id')->references('id')->on('words');

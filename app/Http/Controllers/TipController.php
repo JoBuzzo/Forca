@@ -11,7 +11,7 @@ class TipController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tip' => ['required', 'min:5', 'max:60'],
+            'tip' => ['required', 'min:5'],
             'id' => ['exists:words,id'],
         ]);
 
@@ -42,7 +42,7 @@ class TipController extends Controller
         }
 
         $request->validate([
-            'tip' => ['required', 'min:5', 'max:60'],
+            'tip' => ['required', 'min:5'],
         ]);
 
         $tip->update([

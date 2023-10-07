@@ -25,8 +25,8 @@ return new class extends Migration
 
 
         User::create([
-            'name' => 'Buzzo',
-            'email' => 'joaolucas.buzzo@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
             'is_admin' => true,
             'password' => '12345678',
         ]);

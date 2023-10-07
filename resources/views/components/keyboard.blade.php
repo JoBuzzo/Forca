@@ -6,7 +6,7 @@
 
 <button 
     wire:click="verifyLetter('{{ $value }}')" 
-    class="flex items-center justify-center w-16 h-16 p-4 text-xl text-center uppercase border  text-gray-300
+    class="flex items-center justify-center md:w-16 md:h-16 p-4 text-xl text-center uppercase border text-gray-300 w-9 h-9
     @if ($error)
         dark:bg-red-700 border-red-800
     @endif
