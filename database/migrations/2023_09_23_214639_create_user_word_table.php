@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('word_id');
 
-            $table->integer('score')->default(100);
+            $table->integer('score')->default(10);
 
             $table->boolean('finalized')->default(false);
 

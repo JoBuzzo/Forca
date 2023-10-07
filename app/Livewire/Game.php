@@ -22,6 +22,7 @@ class Game extends Component
     public $categories;
     public $message;
 
+    public $chances;
     public function mount()
     {
         if (!$word = Word::find(Session::get('word_id'))) {
@@ -32,24 +33,32 @@ class Game extends Component
         $this->categories = $word->categories;
         $this->arrayWord = str_split($word->word, 1);
 
+
+        $this->correctLetters = Session::get('correctLetters') ?: array();
+        $this->errorLetters = Session::get('errorLetters') ?: array();
+
         if (in_array('-', $this->arrayWord)) {
             $this->correctLetters[] = '-';
         }
 
-        $this->correctLetters = Session::get('correctLetters') ?: array();
-        $this->errorLetters = Session::get('errorLetters') ?: array();
-        
+
         $userWord = DB::table('user_word')
             ->where('user_id', Auth::user()->id)
             ->where('word_id', $word->id)
             ->first();
 
+
         if (!$userWord) {
-            $userWord = DB::table('user_word')->insertGetId([
+            $userWord = DB::table('user_word')->insert([
                 'user_id' => Auth::user()->id,
                 'word_id' => $word->id,
+                'score' => 10
             ]);
         }
+        $this->chances = DB::table('user_word')
+            ->where('user_id', Auth::user()->id)
+            ->where('word_id', $word->id)
+            ->value('score');
     }
 
     public function verifyLetter($letter)
@@ -81,6 +90,7 @@ class Game extends Component
         Session::forget('correctLetters');
         Session::forget('errorLetters');
 
+
         return redirect()->route('home');
     }
 
@@ -93,16 +103,35 @@ class Game extends Component
 
     protected function errorLetter($letter)
     {
-        DB::table('user_word')
-            ->where('user_id', Auth::user()->id)
-            ->where('word_id', Session::get('word_id'))
-            ->decrement('score', 5);
-
-        $this->message = "<span class='absolute text-red-600 top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
-
-
         $this->errorLetters[] = $letter;
         Session::put('errorLetters', $this->errorLetters);
-    
+        $this->chances = DB::table('user_word')
+            ->where('user_id', Auth::user()->id)
+            ->where('word_id', Session::get('word_id'))
+            ->value('score');
+        
+        $this->message = "<span class='absolute text-red-600 top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
+
+        if (DB::table('user_word')->where('user_id', Auth::user()->id)->where('word_id', Session::get('word_id'))->value('score') != 0) {
+            DB::table('user_word')
+                ->where('user_id', Auth::user()->id)
+                ->where('word_id', Session::get('word_id'))
+                ->decrement('score', 1);
+            $this->chances--;
+        } else {
+
+            DB::table('user_word')
+                ->where('user_id', Auth::user()->id)
+                ->where('word_id', Session::get('word_id'))
+                ->update(['finalized' => true]);
+
+
+            Session::forget('word_id');
+            Session::forget('correctLetters');
+            Session::forget('errorLetters');
+
+
+            $this->message = "<span class='absolute text-red-600'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
+        }
     }
 }

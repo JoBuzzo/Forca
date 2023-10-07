@@ -23,6 +23,7 @@
                     </div>
                 @endforeach
             </div>
+            <span>Chances: {{ $chances }}</span>
         </div>
 
         <div class="flex flex-col items-center justify-center mt-48">
