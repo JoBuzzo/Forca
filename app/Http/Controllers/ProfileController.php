@@ -47,6 +47,8 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+        
+        $user->words()->detach();
 
         Auth::logout();
 
