@@ -21,6 +21,6 @@ class Admin
             return $next($request);
         }
 
-        return redirect()->route('welcome');
+        return redirect()->route('home');
     }
 }

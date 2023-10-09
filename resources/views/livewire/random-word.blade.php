@@ -2,10 +2,14 @@
 
     <div class="relative gap-2 p-3 overflow-x-auto rounded-sm">
         <div class="flex items-center justify-between w-full mb-5">
-            <span>Top {{ count($users) }} players</span>
+         
+                
+                <span>Top {{ count($users) }} players</span>
+          
             <div>
+                <x-score-auth />
                 <x-primary-button wire:click='random'>Jogar</x-primary-button>
-                @if(isset($txt))
+                @if (isset($txt))
                     <span class="absolute z-50 text-sm right-2 top-12">{{ $txt }}</span>
                 @endif
 
@@ -18,26 +22,26 @@
                         Nome
                     </th>
                     <th class="px-6 py-3">
-                        Pontuação
-                    </th>
-                    <th class="px-6 py-3">
                         Palavras jogadas
                     </th>
-                   
+                    <th class="px-6 py-3">
+                        Pontuação
+                    </th>
+
                 </tr>
             </thead>
             <tbody>
 
                 @foreach ($users as $user)
-                    <tr class="bg-gray-800 border-b border-gray-700">
-                        <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $user->name }}
+                    <tr class="bg-gray-800 border-b border-gray-700 @if($user->user_id === Auth::user()->id) bg-green-500 dark:text-white @endif">
+                        <th class="px-6 py-4 font-medium whitespace-nowrap">
+                            {{ $loop->index + 1 }} {{ $user->name }}
                         </th>
                         <td class="px-6 py-4 text-center">
-                            {{ $user->total_score }}
+                            {{ $user->word_count }}
                         </td>
                         <td class="px-6 py-4 text-center">
-                            {{ $user->word_count }}
+                            {{ $user->total_score }}
                         </td>
                     </tr>
                 @endforeach
