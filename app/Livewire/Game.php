@@ -30,7 +30,7 @@ class Game extends Component
             return redirect()->route('home');
         }
 
-        
+
         $this->countTips = Session::get('countTips') ?: 0;
         $this->tips = $word->tips()->limit($this->countTips)->get();
         $this->categories = $word->categories;
@@ -64,30 +64,32 @@ class Game extends Component
             ->value('score');
     }
 
+    //dar dica
     public function tip()
     {
         $word = Word::find(Session::get('word_id'));
-        if($word->tips->count() > $this->countTips){
-            if($this->chances > 2 ){
+        if ($word->tips->count() > $this->countTips) {
+            if ($this->chances > 2) {
                 $this->countTips++;
-                
+
                 Session::put('countTips', $this->countTips);
-                
+
                 DB::table('user_word')
-                ->where('user_id', Auth::user()->id)
-                ->where('word_id', Session::get('word_id'))
-                ->decrement('score', 2);
+                    ->where('user_id', Auth::user()->id)
+                    ->where('word_id', Session::get('word_id'))
+                    ->decrement('score', 2);
                 $this->chances -= 2;
-                
+
                 $this->tips =  $word->tips()->limit($this->countTips)->get();
-            }else
-            {
+            } else {
                 $this->message = "<span class='absolute text-sm text-red-600 md:text-base'>Você não possui chances suficientes para usar dicas.</span>";
             }
-        }else{
+        } else {
             $this->message = "<span class='absolute text-sm text-red-600 md:text-base'>Esta palavra não possui mais dicas.</span>";
         }
     }
+
+    //verifica se a letra esta correta, salvando-a no array de letras erradas ou letras corretas
     public function verifyLetter($letter)
     {
 
@@ -96,6 +98,8 @@ class Game extends Component
             $this->correctLetter($letter);
 
             if (count(array_unique($this->arrayWord)) == count($this->correctLetters)) {
+                $this->message = "<span class='absolute text-green-600 top-28'>Você venceu!</span>";
+
                 $this->finished();
             }
         } else if (!in_array($letter, $this->errorLetters)) {
@@ -105,8 +109,6 @@ class Game extends Component
 
     protected function finished()
     {
-        $this->message = "<span class='absolute text-green-600 top-28'>Você venceu!</span>";
-
         DB::table('user_word')
             ->where('user_id', Auth::user()->id)
             ->where('word_id', Session::get('word_id'))
@@ -132,14 +134,15 @@ class Game extends Component
     {
         $this->errorLetters[] = $letter;
         Session::put('errorLetters', $this->errorLetters);
-        $this->chances = DB::table('user_word')
-            ->where('user_id', Auth::user()->id)
-            ->where('word_id', Session::get('word_id'))
-            ->value('score');
-        
+
         $this->message = "<span class='absolute text-sm text-red-600 md:text-base top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
 
-        if (DB::table('user_word')->where('user_id', Auth::user()->id)->where('word_id', Session::get('word_id'))->value('score') != 0) {
+        if (
+            $this->chances =  DB::table('user_word')
+            ->where('user_id', Auth::user()->id)
+            ->where('word_id', Session::get('word_id'))
+            ->value('score') != 0
+        ) {
             DB::table('user_word')
                 ->where('user_id', Auth::user()->id)
                 ->where('word_id', Session::get('word_id'))
@@ -147,17 +150,7 @@ class Game extends Component
             $this->chances--;
         } else {
 
-            DB::table('user_word')
-                ->where('user_id', Auth::user()->id)
-                ->where('word_id', Session::get('word_id'))
-                ->update(['finalized' => true]);
-
-
-            Session::forget('word_id');
-            Session::forget('correctLetters');
-            Session::forget('errorLetters');
-            Session::forget('countTips');
-
+            $this->finished();
 
             $this->message = "<span class='absolute text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
         }
