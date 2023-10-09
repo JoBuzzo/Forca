@@ -22,13 +22,17 @@ class Game extends Component
     public $categories;
     public $message;
     public $chances;
+
+    public $countTips;
     public function mount()
     {
         if (!$word = Word::find(Session::get('word_id'))) {
             return redirect()->route('home');
         }
 
-        $this->tips = $word->tips;
+        
+        $this->countTips = Session::get('countTips') ?: 0;
+        $this->tips = $word->tips()->limit($this->countTips)->get();
         $this->categories = $word->categories;
         $this->arrayWord = str_split($word->word, 1);
 
@@ -60,6 +64,30 @@ class Game extends Component
             ->value('score');
     }
 
+    public function tip()
+    {
+        $word = Word::find(Session::get('word_id'));
+        if($word->tips->count() > $this->countTips){
+            if($this->chances > 2 ){
+                $this->countTips++;
+                
+                Session::put('countTips', $this->countTips);
+                
+                DB::table('user_word')
+                ->where('user_id', Auth::user()->id)
+                ->where('word_id', Session::get('word_id'))
+                ->decrement('score', 2);
+                $this->chances -= 2;
+                
+                $this->tips =  $word->tips()->limit($this->countTips)->get();
+            }else
+            {
+                $this->message = "<span class='absolute text-sm text-red-600 md:text-base'>Você não possui chances suficientes para usar dicas.</span>";
+            }
+        }else{
+            $this->message = "<span class='absolute text-sm text-red-600 md:text-base'>Esta palavra não possui mais dicas.</span>";
+        }
+    }
     public function verifyLetter($letter)
     {
 
@@ -88,7 +116,7 @@ class Game extends Component
         Session::forget('word_id');
         Session::forget('correctLetters');
         Session::forget('errorLetters');
-
+        Session::forget('countTips');
 
         return redirect()->route('home');
     }
@@ -128,6 +156,7 @@ class Game extends Component
             Session::forget('word_id');
             Session::forget('correctLetters');
             Session::forget('errorLetters');
+            Session::forget('countTips');
 
 
             $this->message = "<span class='absolute text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
