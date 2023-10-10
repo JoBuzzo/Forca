@@ -86,6 +86,12 @@
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('word.index')" :active="request()->routeIs('word.index') || request()->routeIs('word.edit')">
+                    Palavras
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.index') || request()->routeIs('category.edit')">
+                    Categorias
+                </x-responsive-nav-link>
             </div>
         @endif
 

@@ -64,6 +64,26 @@ class Game extends Component
             ->value('score');
     }
 
+    
+
+    //verifica se a letra esta correta, salvando-a no array de letras erradas ou letras corretas
+    public function verifyLetter($letter)
+    {
+
+        if (in_array($letter, $this->arrayWord) && !in_array($letter, $this->correctLetters)) {
+
+            $this->correctLetter($letter);
+
+            if (count(array_unique($this->arrayWord)) == count($this->correctLetters)) {
+                $this->message = "<span class='absolute text-green-600'>Você venceu!</span>";
+
+                $this->finished();
+            }
+        } else if (!in_array($letter, $this->errorLetters)) {
+            $this->errorLetter($letter);
+        }
+    }
+
     //dar dica
     public function tip()
     {
@@ -88,25 +108,6 @@ class Game extends Component
             $this->message = "<span class='absolute text-sm text-red-600 md:text-base'>Esta palavra não possui mais dicas.</span>";
         }
     }
-
-    //verifica se a letra esta correta, salvando-a no array de letras erradas ou letras corretas
-    public function verifyLetter($letter)
-    {
-
-        if (in_array($letter, $this->arrayWord) && !in_array($letter, $this->correctLetters)) {
-
-            $this->correctLetter($letter);
-
-            if (count(array_unique($this->arrayWord)) == count($this->correctLetters)) {
-                $this->message = "<span class='absolute text-green-600 top-28'>Você venceu!</span>";
-
-                $this->finished();
-            }
-        } else if (!in_array($letter, $this->errorLetters)) {
-            $this->errorLetter($letter);
-        }
-    }
-
     protected function finished()
     {
         DB::table('user_word')
@@ -125,7 +126,7 @@ class Game extends Component
 
     protected function correctLetter($letter)
     {
-        $this->message = "<span class='absolute text-sm text-green-600 top-28 md:text-base'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> está correta</span>";
+        $this->message = "<span class='text-sm text-green-600 md:text-base'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> está correta</span>";
         $this->correctLetters[] = $letter;
         Session::put('correctLetters', $this->correctLetters);
     }
@@ -135,24 +136,24 @@ class Game extends Component
         $this->errorLetters[] = $letter;
         Session::put('errorLetters', $this->errorLetters);
 
-        $this->message = "<span class='absolute text-sm text-red-600 md:text-base top-28'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
+        $this->message = "<span class='text-sm text-red-600 md:text-base'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
 
         if (
-            $this->chances =  DB::table('user_word')
+            ($this->chances =  DB::table('user_word')
             ->where('user_id', Auth::user()->id)
             ->where('word_id', Session::get('word_id'))
-            ->value('score') != 0
+            ->value('score')) != 0
         ) {
             DB::table('user_word')
-                ->where('user_id', Auth::user()->id)
-                ->where('word_id', Session::get('word_id'))
-                ->decrement('score', 1);
-            $this->chances--;
+            ->where('user_id', Auth::user()->id)
+            ->where('word_id', Session::get('word_id'))
+            ->decrement('score', 1);
+            $this->chances --;
         } else {
 
             $this->finished();
 
-            $this->message = "<span class='absolute text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
+            $this->message = "<span class='text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
         }
     }
 }
