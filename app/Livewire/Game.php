@@ -22,7 +22,6 @@ class Game extends Component
     public $categories;
     public $message;
     public $chances;
-
     public $countTips;
     public function mount()
     {
@@ -69,7 +68,7 @@ class Game extends Component
     //verifica se a letra esta correta, salvando-a no array de letras erradas ou letras corretas
     public function verifyLetter($letter)
     {
-
+        
         if (in_array($letter, $this->arrayWord) && !in_array($letter, $this->correctLetters)) {
 
             $this->correctLetter($letter);
@@ -83,6 +82,7 @@ class Game extends Component
             $this->errorLetter($letter);
         }
     }
+
 
     //dar dica
     public function tip()
@@ -102,13 +102,13 @@ class Game extends Component
 
                 $this->tips =  $word->tips()->limit($this->countTips)->get();
             } else {
-                $this->message = "<span class='absolute text-sm text-red-600 md:text-base'>Você não possui chances suficientes para usar dicas.</span>";
+                $this->message = "<span class='text-sm text-red-600 md:text-base'>Você não possui chances suficientes para usar dicas.</span>";
             }
         } else {
-            $this->message = "<span class='absolute text-sm text-red-600 md:text-base'>Esta palavra não possui mais dicas.</span>";
+            $this->message = "<span class='text-sm text-red-600 md:text-base'>Esta palavra não possui mais dicas.</span>";
         }
     }
-    protected function finished()
+    public function finished()
     {
         DB::table('user_word')
             ->where('user_id', Auth::user()->id)
@@ -150,10 +150,7 @@ class Game extends Component
             ->decrement('score', 1);
             $this->chances --;
         } else {
-
-            $this->finished();
-
-            $this->message = "<span class='text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a href='/' class='hover:underline'>Voltar</a></span>";
+            $this->message = "<span class='text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a wire:click='finished' class='hover:underline'>Voltar</a></span>";
         }
     }
 }
