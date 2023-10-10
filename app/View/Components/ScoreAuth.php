@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Word;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,9 @@ class ScoreAuth extends Component
             ->join('users', 'users.id', '=', 'user_word.user_id')
             ->groupBy('user_word.user_id' )
             ->first();
+        
+        $wordsCount = Word::count();
 
-        return view('components.score-auth', compact('points'));
+        return view('components.score-auth', compact('points', 'wordsCount'));
     }
 }

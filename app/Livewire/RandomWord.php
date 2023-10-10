@@ -33,6 +33,7 @@ class RandomWord extends Component
         if (Session::get('word_id')) {
             return redirect()->route('game');
         }
+
     }
     public function random()
     {

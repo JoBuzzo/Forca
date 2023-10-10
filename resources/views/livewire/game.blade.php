@@ -2,7 +2,7 @@
 
     <div class="flex flex-col w-full gap-4 mb-1 xl:mb-5 justify-evenly xl:gap-96 xl:flex-row">
 
-        <div class="flex flex-col order-1 p-4 mx-4 rounded-lg dark:bg-gray-900 dark:text-gray-300 xl:w-1/6">
+        <div class="flex flex-col order-1 p-4 mx-4 text-white rounded-lg xl:w-1/6">
             <h1 class="text-xl font-bold xl:mb-5">Categorias</h1>
             <ul class="ml-4 list-disc">
                 @foreach ($categories as $category)
@@ -13,7 +13,7 @@
 
 
         <div
-            class="flex flex-col p-4 mx-4 mb-6 rounded-md xl:mb-0 dark:bg-gray-900 dark:text-gray-300 xl:w-1/6 h-36 xl:order-1">
+            class="flex flex-col p-4 mx-4 mb-6 text-white rounded-md xl:mb-0 xl:w-1/6 h-36 xl:order-1">
             <div class="flex items-center justify-start gap-2 mb-5 cursor-pointer hover:underline" wire:click='tip'>
                 <span>Pedir dica</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="flex items-center justify-center mx-4 ">
+    <div class="flex items-center justify-center mx-4">
         <div>
             <div class="flex flex-col items-center justify-center gap-1 lg:flex-row ">
                 <div class="flex items-center justify-center gap-1">
@@ -45,14 +45,14 @@
                 </div>
                 <div class="flex justify-center gap-1">
                     <div
-                        class="items-center justify-center hidden text-xl text-center uppercase border border-gray-300 rounded-md md:flex w-9 h-9 md:h-16 md:w-16 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                        class="items-center justify-center hidden text-xl text-center uppercase bg-black border border-gray-300 rounded-md md:flex w-9 h-9 md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
                         @if (in_array($w, $correctLetters))
                             {{ $w }}
                         @endif
                     </div>
                 @else
                     <div
-                        class="flex items-center justify-center text-xl text-center uppercase border border-gray-300 rounded-md w-9 h-9 md:h-16 md:w-16 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                        class="flex items-center justify-center text-xl text-center uppercase bg-black border border-gray-300 rounded-md w-9 h-9 md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
                         @if (in_array($w, $correctLetters))
                             {{ $w }}
                         @endif
@@ -73,7 +73,7 @@
 
     </div>
 
-    <div class="absolute left-0 right-0 flex flex-col items-center justify-center w-full md:bottom-0 bottom-5">
+    <div class="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center w-full">
 
         <div class="flex items-center justify-center w-full">
             <x-keyboard value="q" :corret="$correctLetters" :error="$errorLetters" />
