@@ -11,8 +11,8 @@
                 @endif
             </div>
         </div>
-        <table class="w-full text-xs text-left text-gray-400 md:text-sm">
-            <thead class="text-xs text-white uppercase bg-gray-700 ">
+        <table class="w-full text-xs text-left text-gray-400 border border-black rounded-sm shadow md:text-sm">
+            <thead class="text-xs text-white uppercase bg-black ">
                 <tr>
                     <th class="px-2 py-3">
                         Nome
@@ -29,7 +29,7 @@
             <tbody>
 
                 @foreach ($users as $user)
-                    <tr class="bg-gray-800 border-b border-gray-700 @if($user->user_id === Auth::user()->id) bg-green-500 dark:text-white @endif">
+                    <tr class="@if($user->user_id === Auth::user()->id) bg-secondary text-white @else background @endif">
                         <th class="px-2 py-2 font-medium whitespace-nowrap">
                             <strong class="text-white">{{ $loop->index + 1 }}° </strong> {{ $user->name }}
                         </th>

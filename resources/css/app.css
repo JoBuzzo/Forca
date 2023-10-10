@@ -2,3 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg-primary {
+   @apply bg-[#4000FF]
+}
+.bg-secondary {
+   @apply bg-[#02E65A]
+}
+
+.text-primary {
+   @apply text-[#4000FF]
+}
+.text-secondary {
+   @apply text-[#02E65A]
+}
+
+.border-primary {
+   @apply border-[#4000FF]
+}
+.border-secondary {
+   @apply border-[#02E65A]
+}
+
+.background{
+    @apply bg-[#181818]
+}

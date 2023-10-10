@@ -42,6 +42,9 @@ class Game extends Component
         if (in_array('-', $this->arrayWord)) {
             $this->correctLetters[] = '-';
         }
+        if (in_array("'", $this->arrayWord)) {
+            $this->correctLetters[] = "'";
+        }
 
 
         $userWord = DB::table('user_word')
