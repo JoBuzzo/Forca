@@ -8,7 +8,7 @@
     <div class="py-12">
         
         <div class="px-2 mx-auto space-y-2 max-w-7xl sm:px-6 lg:px-8">
-            <a href="{{ url()->previous() }}">
+            <a href="{{ route('word.index') }}">
                 <x-primary-button type="button">Voltar</x-primary-button>
             </a>
             <div class="flex md:items-start justify-center md:justify-between md:h-[400px] overflow-hidden bg-black shadow-sm rounded-md drop-shadow-lg mb-2 md:flex-row flex-col">

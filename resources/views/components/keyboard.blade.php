@@ -5,7 +5,7 @@
 @endphp
 
 <button 
-    wire:click="verifyLetter('{{ $value }}')" 
+    wire:click="verifyLetter('{{ $value }}')" wire:loading.attr="disabled"
     class="flex items-center justify-center sm:w-16 sm:h-16 p-4 text-xl text-center uppercase border text-gray-300 w-[37px] h-[37px] last:rounded-r-lg first:rounded-l-lg
     @if ($error) bg-[#FF3C3C] border-[#FF3C3C] @elseif ($correct) bg-secondary border-secondary @else bg-black @endif border-gray-700 disabled:cursor-not-allowed"
     @if ($error || $correct)
