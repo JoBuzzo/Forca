@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="px-4 py-12">
         <div class="flex flex-col items-center justify-center w-full gap-5 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="w-full overflow-hidden bg-black shadow-sm sm:rounded-lg">
                 <div class="p-6 text-white">
@@ -14,9 +14,9 @@
             </div>
 
 
-            <div class="flex items-center justify-between w-full gap-5">
+            <div class="flex flex-col items-center justify-between w-full gap-5 md:flex-row">
 
-                <div class="flex items-center justify-center w-full overflow-hidden bg-black shadow-sm sm:rounded-lg">
+                <div class="flex items-center justify-center w-full overflow-hidden bg-black rounded-lg shadow-sm">
 
                     <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 20 20">
@@ -31,7 +31,7 @@
 
                 <a href="{{ route('word.index') }}" class="w-full cursor-pointer">
                     <div
-                        class="flex items-center justify-center w-full overflow-hidden bg-black shadow-sm sm:rounded-lg">
+                        class="flex items-center justify-center w-full overflow-hidden bg-black rounded-lg shadow-sm">
 
                         <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 18 14">
@@ -47,7 +47,7 @@
                 </a>
                 <a href="{{ route('category.index') }}" class="w-full cursor-pointer">
                     <div
-                        class="flex items-center justify-center w-full overflow-hidden bg-black shadow-sm sm:rounded-lg">
+                        class="flex items-center justify-center w-full overflow-hidden bg-black rounded-lg shadow-sm">
                         <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor" viewBox="0 0 19 19">
                             <path
@@ -55,7 +55,7 @@
                             <path
                                 d="M17 4h-4.557l-2.4-3.2a2.009 2.009 0 0 0-1.6-.8H4a2 2 0 0 0-2 2h3.443a3.014 3.014 0 0 1 2.4 1.2l2.1 2.8H14a3 3 0 0 1 3 3v8a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z" />
                         </svg>
-                        <div class="p-6 text-white">
+                        <div class="px-4 py-6 text-white">
                             {{ $countCategories }} Categorias cadastradas no sistema
                         </div>
                     </div>
@@ -63,30 +63,33 @@
             </div>
 
             <div class="flex flex-col items-center justify-center w-full mt-10">
-                <x-table>
-                    <x-slot:thead>
-                        <tr class="bg-black">
-                            <th class="px-2 py-3">
-                                Nome
-                            </th>
-                            <th class="px-2 py-3">
-                                Email
-                            </th>
-                            <th class="px-2 py-3">
-                                Cadastrado em
-                            </th>
-                        </tr>
-                    </x-slot:thead>
-                    <x-slot:tbody>
-                        @foreach ($users as $user)
-                            <tr class="even:bg-black">
-                                <th class="px-2 py-4 font-medium whitespace-nowrap">{{ $user->name }}</th>
-                                <th class="px-2 py-4 font-medium whitespace-nowrap">{{ $user->email }}</th>
-                                <td class="px-2 py-4 text-white">{{ $user->created_at->diffForHumans() }}</td>
+                
+                <div class="relative w-full overflow-x-scroll">
+                    <x-table>
+                        <x-slot:thead>
+                            <tr class="bg-black">
+                                <th class="px-2 py-3">
+                                    Nome
+                                </th>
+                                <th class="px-2 py-3">
+                                    Email
+                                </th>
+                                <th class="px-2 py-3">
+                                    Cadastro
+                                </th>
                             </tr>
-                        @endforeach
-                    </x-slot:tbody>
-                </x-table>
+                        </x-slot:thead>
+                        <x-slot:tbody>
+                            @foreach ($users as $user)
+                                <tr class="even:bg-black">
+                                    <th class="px-2 py-4 font-medium whitespace-nowrap">{{ $user->name }}</th>
+                                    <th class="px-2 py-4 font-medium whitespace-nowrap">{{ $user->email }}</th>
+                                    <td class="px-2 py-4 text-white">{{ $user->created_at->diffForHumans() }}</td>
+                                </tr>
+                            @endforeach
+                        </x-slot:tbody>
+                    </x-table>
+                </div>
                 <div class="w-full mt-5">
                     {{ $users->onEachSide(1)->links() }}
                 </div>
