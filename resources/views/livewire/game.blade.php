@@ -45,14 +45,14 @@
                 </div>
                 <div class="flex justify-center gap-1">
                     <div
-                        class="items-center justify-center hidden text-xl text-center uppercase bg-black border border-gray-300 rounded-md md:flex w-9 h-9 md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
+                        class="items-center justify-center hidden w-8 h-8 text-xl text-center uppercase bg-black border border-gray-300 rounded-md md:flex md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
                         @if (in_array($w, $correctLetters))
                             {{ $w }}
                         @endif
                     </div>
                 @else
                     <div
-                        class="flex items-center justify-center text-xl text-center uppercase bg-black border border-gray-300 rounded-md w-9 h-9 md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
+                        class="flex items-center justify-center w-8 h-8 text-xl text-center uppercase bg-black border border-gray-300 rounded-md md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
                         @if (in_array($w, $correctLetters))
                             {{ $w }}
                         @endif
