@@ -1,16 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 class="text-xl font-semibold leading-tight text-white">
             Categorias: {{ $category->description }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded drop-shadow-lg">
+            <div class="overflow-hidden bg-black shadow-sm sm:rounded drop-shadow-lg">
 
                 <form action="{{ route('category.update', $category->id) }}" method="POST"
-                    class="flex flex-col items-start justify-center w-1/3 gap-6 p-6 text-gray-900 dark:text-gray-100">
+                    class="flex flex-col items-start justify-center w-1/3 gap-6 p-6 text-white">
                     @csrf @method('PUT')
                     <div>
                         <x-input-label for="description">Nome</x-input-label>
@@ -18,7 +18,7 @@
                             placeholder="Nome da categoria" />
                         <x-input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
-                    <div>
+                    <div class="flex items-center justify-start gap-2">
                         <x-primary-button>Salvar</x-primary-button>
                         <x-danger-button x-data=""
                             x-on:click.prevent="$dispatch('open-modal', 'delete')">Excluir</x-danger-button>

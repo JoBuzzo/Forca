@@ -26,3 +26,7 @@
 .background{
     @apply bg-[#181818]
 }
+
+.view{
+   @apply text-blue-500 hover:underline
+}

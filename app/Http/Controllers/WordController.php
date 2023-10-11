@@ -31,7 +31,7 @@ class WordController extends Controller
 
         $word->categories()->sync($request->category);
 
-        return redirect()->route('word.index');
+        return redirect()->route('word.edit', $word->id);
     }
 
     public function edit(string $id)

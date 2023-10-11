@@ -1,18 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 class="text-xl font-semibold leading-tight text-white">
             Palavra: {{ $word->word }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div
-                class="flex items-start justify-between h-[400px] overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded drop-shadow-lg">
+            <div class="flex items-start justify-between h-[400px] overflow-hidden bg-black shadow-sm sm:rounded drop-shadow-lg">
 
                 <div class="flex flex-col items-start justify-center">
                     <form action="{{ route('word.update', $word->id) }}" method="POST"
-                        class="flex flex-col items-start justify-center gap-6 p-6 text-gray-900 dark:text-gray-100">
+                        class="flex flex-col items-start justify-center gap-6 p-6 text-white">
                         @csrf
                         @method('PUT')
                         <div class="flex gap-3">
@@ -39,7 +38,7 @@
                         <input type="hidden" name="id" value="{{ $word->id }}">
                         <div>
                             <x-input-label for="tip">Dica</x-input-label>
-                            <textarea id="tip" rows="4" cols="52" name="tip" class="border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"></textarea>
+                            <textarea id="tip" rows="4" cols="52" name="tip" class="text-white border-gray-700 rounded-md shadow-sm background focus:border-indigo-600 focus:ring-indigo-600"></textarea>
                             <x-input-error :messages="$errors->get('tip')" class="mt-2" />
                         </div>
                         <div>
@@ -55,49 +54,33 @@
                     <div class="relative space-y-2 overflow-x-auto">
 
                         @if (count($word->tips) > 0)
-                            <table class="text-sm text-left text-gray-500 dark:text-gray-400 w-84">
-                                <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <x-table>
+                                <x-slot:thead>
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Nome
+                                        <th class="px-2 py-3">
+                                            Dicas
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Criado em
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Editado em
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th class="px-2 py-3">
                                             Ações
                                         </th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                </x-slot:thead>
+                                <x-slot:tbody>
                                     @foreach ($word->tips as $tip)
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <th class="px-2 py-4 font-medium text-gray-900 truncate dark:text-white">
+                                        <tr>
+                                            <th class="max-w-md px-2 py-4 overflow-hidden font-medium text-white truncate nowrap text-ellipsis">
                                                 {{ $tip->tip }}
                                             </th>
-                                            <td class="px-6 py-4">
-                                                {{ $tip->created_at->diffForHumans() }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {{ $tip->updated_at->diffForHumans() }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <a href="{{ route('tip.edit', $tip->id) }}"
-                                                    class="text-blue-500 hover:underline">Vizualizar</a>
+                                           
+                                            <td class="px-2 py-4">
+                                                <a href="{{ route('tip.edit', $tip->id) }}" class="view">Vizualizar</a>
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
-
-
+                                </x-slot:tbody>
+                            </x-table>
                         @endif
                     </div>
-
                 </div>
 
 
@@ -106,7 +89,7 @@
                         @csrf
                         @method('delete')
 
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        <h2 class="text-lg font-medium text-white">
                             Você tem certeza que deseja excluir esta Palavra?
                         </h2>
 

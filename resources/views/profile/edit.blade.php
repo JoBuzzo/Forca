@@ -13,13 +13,13 @@
                 </div>
             </div>
 
-            <div class="p-4 shadow sm:p-8bg-black sm:rounded-lg">
+            <div class="p-4 bg-black shadow sm:p-8 sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.update-password-form')
                 </div>
             </div>
 
-            <div class="p-4 shadow sm:p-8bg-black sm:rounded-lg">
+            <div class="p-4 bg-black shadow sm:p-8 sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.delete-user-form')
                 </div>
