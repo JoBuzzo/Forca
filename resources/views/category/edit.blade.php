@@ -6,8 +6,11 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-black shadow-sm sm:rounded drop-shadow-lg">
+        <div class="px-2 mx-auto space-y-2 max-w-7xl sm:px-6 lg:px-8">
+            <a href="{{ url()->previous() }}">
+                <x-primary-button type="button">Voltar</x-primary-button>
+            </a>
+            <div class="flex items-start justify-center md:justify-between md:h-[400px] overflow-hidden bg-black shadow-sm rounded-md drop-shadow-lg mb-2 md:flex-row flex-col">
 
                 <form action="{{ route('category.update', $category->id) }}" method="POST"
                     class="flex flex-col items-start justify-center w-1/3 gap-6 p-6 text-white">

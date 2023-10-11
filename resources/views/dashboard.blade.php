@@ -7,7 +7,7 @@
 
     <div class="px-4 py-12">
         <div class="flex flex-col items-center justify-center w-full gap-5 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="w-full overflow-hidden bg-black shadow-sm sm:rounded-lg">
+            <div class="w-full overflow-hidden bg-black rounded-lg shadow-sm">
                 <div class="p-6 text-white">
                     Seja Bem vindo <strong>{{ Auth::user()->name }}</strong>!
                 </div>

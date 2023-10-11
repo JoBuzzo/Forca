@@ -6,15 +6,19 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex items-start justify-between h-[400px] overflow-hidden bg-black shadow-sm sm:rounded drop-shadow-lg">
+        
+        <div class="px-2 mx-auto space-y-2 max-w-7xl sm:px-6 lg:px-8">
+            <a href="{{ url()->previous() }}">
+                <x-primary-button type="button">Voltar</x-primary-button>
+            </a>
+            <div class="flex md:items-start justify-center md:justify-between md:h-[400px] overflow-hidden bg-black shadow-sm rounded-md drop-shadow-lg mb-2 md:flex-row flex-col">
 
                 <div class="flex flex-col items-start justify-center">
                     <form action="{{ route('word.update', $word->id) }}" method="POST"
                         class="flex flex-col items-start justify-center gap-6 p-6 text-white">
                         @csrf
                         @method('PUT')
-                        <div class="flex gap-3">
+                        <div class="flex items-center justify-center gap-1 md:gap-3">
                             <div>
                                 <x-input-label for="word">Palavra</x-input-label>
                                 <x-text-input name="word" id="word" placeholder="Palavra"
@@ -33,12 +37,12 @@
                         </div>
                     </form>
                     
-                    <form action="{{ route('tip.store') }}" method="POST" class="flex flex-col items-start justify-center gap-6 p-6 text-gray-900 dark:text-gray-100">
+                    <form action="{{ route('tip.store') }}" method="POST" class="flex flex-col items-start justify-center gap-6 p-6 text-white">
                         @csrf
                         <input type="hidden" name="id" value="{{ $word->id }}">
                         <div>
                             <x-input-label for="tip">Dica</x-input-label>
-                            <textarea id="tip" rows="4" cols="52" name="tip" class="text-white border-gray-700 rounded-md shadow-sm background focus:border-indigo-600 focus:ring-indigo-600"></textarea>
+                            <textarea id="tip" rows="4"  name="tip" class="text-white border-gray-700 rounded-md shadow-sm resize-none w-80 md:w-96 background focus:border-indigo-600 focus:ring-indigo-600"></textarea>
                             <x-input-error :messages="$errors->get('tip')" class="mt-2" />
                         </div>
                         <div>
@@ -49,7 +53,7 @@
                 </div>
 
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="p-6">
 
                     <div class="relative space-y-2 overflow-x-auto">
 
@@ -68,7 +72,7 @@
                                 <x-slot:tbody>
                                     @foreach ($word->tips as $tip)
                                         <tr>
-                                            <th class="max-w-md px-2 py-4 overflow-hidden font-medium text-white truncate nowrap text-ellipsis">
+                                            <th class="px-2 py-4 overflow-hidden font-medium text-white truncate max-w-[250px] md:max-w-md nowrap text-ellipsis">
                                                 {{ $tip->tip }}
                                             </th>
                                            

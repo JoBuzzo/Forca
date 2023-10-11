@@ -6,9 +6,11 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div
-                class="flex items-start justify-between h-[400px] overflow-hidden bg-black shadow-sm  sm:rounded drop-shadow-lg">
+        <div class="px-2 mx-auto space-y-2 max-w-7xl sm:px-6 lg:px-8">
+            <a href="{{ url()->previous() }}">
+                <x-primary-button type="button">Voltar</x-primary-button>
+            </a>
+            <div class="items-center flex md:items-start justify-center md:justify-between md:h-[400px] overflow-hidden bg-black shadow-sm rounded-md drop-shadow-lg mb-2 md:flex-row flex-col">
 
                 <div class="flex flex-col items-start justify-center">
                    
@@ -18,7 +20,7 @@
                         @method('PUT')
                         <div>
                             <x-input-label for="tip">Dica</x-input-label>
-                            <textarea id="tip" rows="4" cols="52" name="tip" class="text-white border-gray-700 rounded-md shadow-sm background focus:border-indigo-600 focus:ring-indigo-600">{{ $tip->tip }}</textarea>
+                            <textarea id="tip" rows="4" cols="52" name="tip" class="text-white border-gray-700 rounded-md shadow-sm resize-none w-80 md:w-96 background focus:border-indigo-600 focus:ring-indigo-600">{{ $tip->tip }}</textarea>
                             <x-input-error :messages="$errors->get('tip')" class="mt-2" />
                         </div>
                         <div>

@@ -6,8 +6,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex items-start justify-between h-[400px] overflow-hidden bg-black shadow-sm sm:rounded drop-shadow-lg mb-2">
+        
+        <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="flex items-start justify-between md:h-[400px] overflow-hidden bg-black shadow-sm rounded-md drop-shadow-lg mb-2 md:flex-row flex-col">
 
                 <form action="{{ route('category.store') }}" method="POST" class="flex flex-col items-start justify-center gap-6 p-6 text-gray-900 dark:text-gray-100">
                     @csrf
@@ -19,7 +20,7 @@
                     <x-primary-button>Cadastrar</x-primary-button>
                 </form>
 
-                <div class="w-2/3 p-6">
+                <div class="p-6 md:w-2/3">
 
                     <div class="relative space-y-2 overflow-x-auto">
 
@@ -31,7 +32,7 @@
                                             Nome
                                         </th>
                                         <th class="px-2 py-3">
-                                            Criado em
+                                            Cadastrado
                                         </th>
                                        
                                         <th class="px-2 py-3">

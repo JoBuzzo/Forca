@@ -6,13 +6,14 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex items-start justify-between h-[400px] overflow-hidden bg-black shadow-sm sm:rounded drop-shadow-lg mb-2">
+        
+        <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="flex items-start justify-between md:h-[400px] overflow-hidden bg-black shadow-sm rounded-md drop-shadow-lg mb-2 md:flex-row flex-col">
 
                 <form action="{{ route('word.store') }}" method="POST"
                     class="flex flex-col items-start justify-center gap-6 p-6 text-white">
                     @csrf
-                    <div class="flex gap-3">
+                    <div class="flex gap-1 md:gap-3">
                         <div>
                             <x-input-label for="word">Palavra</x-input-label>
                             <x-text-input name="word" id="word" placeholder="Palavra" />
@@ -27,7 +28,7 @@
                     <x-primary-button>Cadastrar</x-primary-button>
                 </form>
 
-                <div class="w-1/2 p-6">
+                <div class="p-6 md:w-1/2">
 
                     <div class="relative space-y-2 overflow-x-auto">
 
@@ -39,7 +40,7 @@
                                             Nome
                                         </th>
                                         <th class="px-2 py-3">
-                                            Data de criação
+                                            Cadastrado
                                         </th>
 
                                         <th class="px-2 py-3">

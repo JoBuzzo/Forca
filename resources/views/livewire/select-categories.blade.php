@@ -3,7 +3,7 @@
         <span class="block text-sm font-medium text-white">Categorias</span>
 
         <button wire:click='x_show' type="button"
-            class="flex items-center justify-between w-64 px-2 py-2 rounded-md shadow-sm background">
+            class="flex items-center justify-between px-2 py-2 rounded-md shadow-sm w-36 md:w-64 background">
 
             @if (count($selecteds) > 0)
                 {{ $selecteds->first()->description }}
@@ -20,7 +20,7 @@
     </div>
 
         @if ($show)
-            <div class="absolute z-50 w-64 rounded-lg shadow top-16 background">
+            <div class="absolute z-50 rounded-lg shadow md:w-64 top-16 background w-36">
                 <div class="p-3 border-b border-gray-900">
                     <div class="relative">
                         @forelse ($selecteds as $s)
