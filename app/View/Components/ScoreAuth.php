@@ -24,17 +24,7 @@ class ScoreAuth extends Component
      */
     public function render(): View|Closure|string
     {
-
-        $points = DB::table('user_word')
-            ->selectRaw('SUM(user_word.score) as total_score, COUNT(DISTINCT user_word.word_id) as word_count')
-            ->where('user_word.finalized', true)
-            ->where('user_word.user_id', Auth::user()->id)
-            ->join('users', 'users.id', '=', 'user_word.user_id')
-            ->groupBy('user_word.user_id' )
-            ->first();
-        
         $wordsCount = Word::count();
-
-        return view('components.score-auth', compact('points', 'wordsCount'));
+        return view('components.score-auth', compact('wordsCount'));
     }
 }
