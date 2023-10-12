@@ -7,9 +7,17 @@
 
     <div class="py-12">
         <div class="px-2 mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
-            <div class="p-4 bg-black rounded-lg shadow sm:p-8">
+            <div class="flex flex-col justify-between gap-6 p-4 bg-black rounded-lg shadow md:flex-row sm:p-8 md:gap-0">
                 <div class="max-w-xl">
                     @include('profile.partials.update-profile-information-form')
+                </div>
+                <div class="flex flex-col items-start">
+                    <span class="whitespace-nowrap">
+                        Palavras jogadas: {{ Auth::user()->words_count }}
+                    </span>
+                    <span class="whitespace-nowrap">
+                        Pontuanção: {{ Auth::user()->total_score }}
+                    </span>
                 </div>
             </div>
 

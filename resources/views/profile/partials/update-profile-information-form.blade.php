@@ -10,14 +10,7 @@
                     {{ __("Update your account's profile information and email address.") }}
                 </p>
             </div>
-            <div class="flex flex-col items-start justify-center md:items-end">
-                <span class="whitespace-nowrap">
-                    Pontuanção: {{ Auth::user()->total_score }}
-                </span>
-                <span class="whitespace-nowrap">
-                    Palavras jogadas: {{ Auth::user()->words_count }}
-                </span>
-            </div>
+            
         </div>
 
     </header>
