@@ -1,8 +1,8 @@
-<div class="flex flex-col items-center justify-center w-full mt-4 xl:mt-20">
+<div class="flex flex-col items-center justify-center w-full gap-4 px-4 mt-4 xl:gap-24">
 
-    <div class="flex flex-col w-full gap-4 mb-1 xl:mb-5 justify-evenly xl:gap-96 xl:flex-row">
+    <div class="flex flex-col w-full mb-10 justify-evenly xl:gap-96 xl:flex-row">
 
-        <div class="flex flex-col order-1 p-4 mx-4 text-white rounded-lg xl:w-1/6">
+        <div class="flex flex-col p-4 mx-4 text-white rounded-lg xl:w-1/6">
             <h1 class="text-xl font-bold xl:mb-5">Categorias</h1>
             <ul class="ml-4 list-disc">
                 @foreach ($categories as $category)
@@ -12,9 +12,9 @@
         </div>
 
 
-        <div
-            class="flex flex-col p-4 mx-4 mb-6 text-white rounded-md xl:mb-0 xl:w-1/6 h-36 xl:order-1">
-            <div class="flex items-center justify-start gap-2 mb-5 cursor-pointer hover:underline" wire:click='tip'>
+        <div class="flex flex-col p-4 mx-4 mb-6 text-white rounded-md xl:mb-0 xl:w-1/6 h-36 ">
+            <div class="flex items-center justify-start gap-2 mb-5 cursor-pointer select-none hover:underline"
+                wire:click='tip'>
                 <span>Pedir dica</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     viewBox="0 0 16 16">
@@ -36,28 +36,28 @@
         </div>
     </div>
 
-    <div class="flex items-center justify-center mx-4">
+    <div class="flex items-center justify-center mx-4 mt-10 mb-10 xl:mb-0">
         <div>
-            <div class="flex flex-col items-center justify-center gap-1 lg:flex-row ">
+            <div class="flex flex-col items-center justify-center gap-1 xl:flex-row ">
                 <div class="flex items-center justify-center gap-1">
                     @foreach ($arrayWord as $w)
                         @if ($w === '-')
-                </div>
-                <div class="flex justify-center gap-1">
-                    <div
-                        class="items-center justify-center hidden w-8 h-8 text-xl text-center uppercase bg-black border border-gray-300 rounded-md md:flex md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
-                        @if (in_array($w, $correctLetters))
-                            {{ $w }}
+                            </div>
+                            <div class="flex justify-center gap-1">
+                                <div
+                                    class="items-center justify-center hidden w-8 h-8 text-xl text-center uppercase bg-black border border-gray-300 rounded-md xl:flex xl:h-16 xl:w-16 dark:border-gray-700 dark:text-gray-300">
+                                    @if (in_array($w, $correctLetters))
+                                        {{ $w }}
+                                    @endif
+                                </div>
+                        @else
+                            <div
+                                class="flex items-center justify-center w-8 h-8 text-xl text-center uppercase bg-black border border-gray-300 rounded-md xl:h-16 xl:w-16 dark:border-gray-700 dark:text-gray-300">
+                                @if (in_array($w, $correctLetters))
+                                    {{ $w }}
+                                @endif
+                            </div>
                         @endif
-                    </div>
-                @else
-                    <div
-                        class="flex items-center justify-center w-8 h-8 text-xl text-center uppercase bg-black border border-gray-300 rounded-md md:h-16 md:w-16 dark:border-gray-700 dark:text-gray-300">
-                        @if (in_array($w, $correctLetters))
-                            {{ $w }}
-                        @endif
-                    </div>
-                    @endif
                     @endforeach
                 </div>
             </div>
@@ -73,7 +73,7 @@
 
     </div>
 
-    <div class="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center w-full">
+    <div class="flex flex-col items-center justify-center w-full ">
 
         <div class="flex items-center justify-center w-full">
             <x-keyboard value="q" :corret="$correctLetters" :error="$errorLetters" />
