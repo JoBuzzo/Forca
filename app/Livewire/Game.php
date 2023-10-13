@@ -15,6 +15,8 @@ class Game extends Component
         return view('livewire.game')->layout('layouts.app');
     }
 
+    public $modal = false;
+    public $word;
     public $arrayWord = array();
     public $correctLetters = array();
     public $errorLetters = array();
@@ -23,17 +25,18 @@ class Game extends Component
     public $message;
     public $chances;
     public $countTips;
+    public $victory = true;
     public function mount()
     {
-        if (!$word = Word::find(Session::get('word_id'))) {
+        if (!$this->word = Word::find(Session::get('word_id'))) {
             return redirect()->route('home');
         }
 
 
         $this->countTips = Session::get('countTips') ?: 0;
-        $this->tips = $word->tips()->limit($this->countTips)->get();
-        $this->categories = $word->categories;
-        $this->arrayWord = str_split($word->word, 1);
+        $this->tips = $this->word->tips()->limit($this->countTips)->get();
+        $this->categories = $this->word->categories;
+        $this->arrayWord = str_split($this->word->word, 1);
 
 
         $this->correctLetters = Session::get('correctLetters') ?: array();
@@ -49,29 +52,29 @@ class Game extends Component
 
         $userWord = DB::table('user_word')
             ->where('user_id', Auth::user()->id)
-            ->where('word_id', $word->id)
+            ->where('word_id', $this->word->id)
             ->first();
 
 
         if (!$userWord) {
             $userWord = DB::table('user_word')->insert([
                 'user_id' => Auth::user()->id,
-                'word_id' => $word->id,
+                'word_id' => $this->word->id,
                 'score' => 10
             ]);
         }
         $this->chances = DB::table('user_word')
             ->where('user_id', Auth::user()->id)
-            ->where('word_id', $word->id)
+            ->where('word_id', $this->word->id)
             ->value('score');
     }
 
-    
+
 
     //verifica se a letra esta correta, salvando-a no array de letras erradas ou letras corretas
     public function verifyLetter($letter)
     {
-        
+
         if (in_array($letter, $this->arrayWord) && !in_array($letter, $this->correctLetters)) {
 
             $this->correctLetter($letter);
@@ -90,7 +93,7 @@ class Game extends Component
     //dar dica
     public function tip()
     {
-        $word = Word::find(Session::get('word_id'));
+        $word = Word::find($this->word->id);
         if ($word->tips->count() > $this->countTips) {
             if ($this->chances > 2) {
                 $this->countTips++;
@@ -99,7 +102,7 @@ class Game extends Component
 
                 DB::table('user_word')
                     ->where('user_id', Auth::user()->id)
-                    ->where('word_id', Session::get('word_id'))
+                    ->where('word_id', $this->word->id)
                     ->decrement('score', 2);
                 $this->chances -= 2;
 
@@ -115,7 +118,7 @@ class Game extends Component
     {
         DB::table('user_word')
             ->where('user_id', Auth::user()->id)
-            ->where('word_id', Session::get('word_id'))
+            ->where('word_id', $this->word->id)
             ->update(['finalized' => true]);
 
 
@@ -124,7 +127,7 @@ class Game extends Component
         Session::forget('errorLetters');
         Session::forget('countTips');
 
-        return redirect()->route('home');
+        $this->modal = true;
     }
 
     protected function correctLetter($letter)
@@ -143,17 +146,50 @@ class Game extends Component
 
         if (
             ($this->chances =  DB::table('user_word')
-            ->where('user_id', Auth::user()->id)
-            ->where('word_id', Session::get('word_id'))
-            ->value('score')) != 0
+                ->where('user_id', Auth::user()->id)
+                ->where('word_id', $this->word->id)
+                ->value('score')) != 0
         ) {
             DB::table('user_word')
-            ->where('user_id', Auth::user()->id)
-            ->where('word_id', Session::get('word_id'))
-            ->decrement('score', 1);
-            $this->chances --;
+                ->where('user_id', Auth::user()->id)
+                ->where('word_id', $this->word->id)
+                ->decrement('score', 1);
+            $this->chances--;
         } else {
-            $this->message = "<span class='text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a wire:click='finished' class='hover:underline'>Voltar</a></span>";
+            $this->message = "<span class='text-sm text-red-600 md:text-base'><strong>Você Perdeu!</strong> Mas você ainda descobrir palavra só não ganhará pontos. <a wire:click='finished' class='cursor-auto hover:underline'>Voltar</a></span>";
+            $this->victory = false;
+        }
+    }
+
+
+    public function random()
+    {
+        $user = Auth::user();
+
+        $words = Word::all();
+
+        $words_without_relation = $words->filter(function (Word $word) use ($user) {
+            return !$word->users->contains($user);
+        });
+
+        if (!$words_without_relation->isEmpty()) {
+            Session::put('word_id', $words_without_relation->random()->id);
+            return redirect()->route('game');
+        } else if (
+            $word_id = DB::table('user_word')
+            ->where('user_id', $user->id)
+            ->where('finalized', false)
+            ->first()?->word_id
+        ) {
+            DB::table('user_word')
+                ->where('user_id', $user->id)
+                ->where('word_id', $word_id)
+                ->delete();
+
+            Session::put('word_id', $word_id);
+            return redirect()->route('game');
+        } else {
+            return redirect()->route('home');
         }
     }
 }

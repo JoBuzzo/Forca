@@ -42,7 +42,7 @@ class RandomWord extends Component
 
         $words_without_relation = $words->filter(function (Word $word) use ($user) {
             return !$word->users->contains($user);
-        });;
+        });
 
         if (!$words_without_relation->isEmpty()) {
             Session::put('word_id', $words_without_relation->random()->id);
