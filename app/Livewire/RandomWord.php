@@ -33,7 +33,6 @@ class RandomWord extends Component
         if (Session::get('word_id')) {
             return redirect()->route('game');
         }
-
     }
     public function random()
     {
@@ -43,11 +42,24 @@ class RandomWord extends Component
 
         $words_without_relation = $words->filter(function (Word $word) use ($user) {
             return !$word->users->contains($user);
-        });
-
+        });;
 
         if (!$words_without_relation->isEmpty()) {
             Session::put('word_id', $words_without_relation->random()->id);
+            return redirect()->route('game');
+
+        } else if (
+            $word_id = DB::table('user_word')
+            ->where('user_id', $user->id)
+            ->where('finalized', false)
+            ->first()?->word_id
+        ) {
+            DB::table('user_word')
+                ->where('user_id', $user->id)
+                ->where('word_id', $word_id)
+                ->delete();
+
+            Session::put('word_id', $word_id);
             return redirect()->route('game');
         } else {
             $this->txt = "Sem palavras disponíveis.";
