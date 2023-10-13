@@ -2,12 +2,9 @@
 
     <div class="relative gap-2 p-3 overflow-x-auto rounded-sm">
         <div class="flex items-center justify-between w-full mb-5">
-                <span>Top {{ count($users) }} players</span>
+            <span>Top {{ count($users) }} players</span>
             <div>
                 <x-primary-button wire:click='random'>Jogar</x-primary-button>
-                @if (isset($txt))
-                    <span class="absolute z-50 text-sm right-2 top-20">{{ $txt }}</span>
-                @endif
             </div>
         </div>
         <table class="w-full text-xs text-left text-gray-400 border border-black rounded-sm md:text-base">
@@ -28,7 +25,8 @@
             <tbody>
 
                 @foreach ($users as $user)
-                    <tr class="@if($user->user_id === Auth::user()->id) bg-secondary text-white font-extrabold @else background @endif">
+                    <tr
+                        class="@if ($user->user_id === Auth::user()->id) bg-secondary text-white font-extrabold @else background @endif">
                         <th class="px-2 py-2 md:px-5 whitespace-nowrap">
                             <strong class="text-white">{{ $loop->index + 1 }}° </strong> {{ $user->name }}
                         </th>
@@ -43,9 +41,11 @@
 
             </tbody>
         </table>
-        <div class="text-xs">
+        <div class="flex flex-col text-xs">
             <x-score-auth />
-
+            @if (isset($txt))
+                <span class="text-sm text-red-600">{{ $txt }}</span>
+            @endif
         </div>
     </div>
 
