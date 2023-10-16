@@ -65,18 +65,38 @@
                 </div>
                 <div class="flex flex-col items-start justify-center ">
                     <span>Chances: {{ $chances }}</span>
-                    <div class="h-4">
+                    <div class="flex flex-col h-4">
                         @if ($message)
                             {!! $message !!}
                         @endif
+                        @error('key')
+                            <span class="text-sm text-red-600 md:text-base">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div class="flex flex-col items-center justify-center w-full ">
 
+
+
+        <div class="flex flex-col items-center justify-center w-full">
+            <div class="justify-start hidden p-1 lg:flex">
+                <x-text-input wire:keydown.enter="handleKeyDown" wire:model="key"
+                    class="uppercase placeholder:capitalize" name="key" id="key" placeholder='Letra' />
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        document.getElementById('key').addEventListener('keydown', function(event) {
+                            if (event.key === 'Enter') {
+
+                                document.getElementById('key').value = '';
+                            }
+                        });
+                    });
+                </script>
+            </div>
             <div class="flex items-center justify-center w-full">
                 <x-keyboard value="q" :corret="$correctLetters" :error="$errorLetters" />
                 <x-keyboard value="w" :corret="$correctLetters" :error="$errorLetters" />
@@ -128,7 +148,8 @@
                 <div class="flex flex-col mt-10">
                     <span>Pontos: {{ Auth::user()->total_score - $chances }} <strong
                             class="ml-3 @if ($victory) text-secondary @else text-red-600 @endif">+{{ $chances }}</strong></span>
-                    <span>Palavras jogas: {{ Auth::user()->words_count }} <strong class="ml-3 @if ($victory) text-secondary @else text-red-600 @endif">+1</strong></span>
+                    <span>Palavras jogas: {{ Auth::user()->words_count }} <strong
+                            class="ml-3 @if ($victory) text-secondary @else text-red-600 @endif">+1</strong></span>
                 </div>
 
                 <div class="flex flex-col items-center justify-start mt-10">

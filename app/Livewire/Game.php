@@ -6,7 +6,9 @@ use App\Models\Word;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class Game extends Component
 {
@@ -161,6 +163,26 @@ class Game extends Component
         }
     }
 
+
+ 
+    #[Rule([
+        'key' => ['required', 'min:1', 'max:1']
+    ], attribute: [
+        'key' => 'letra',
+    ])]
+    public $key = '';
+    public function handleKeyDown()
+    {
+        $this->key = Str::lower(str_replace(' ', '-', Str::ascii($this->key)));
+
+        if(strlen($this->key) == 1 ){
+            $this->verifyLetter($this->key);
+        }
+
+        $this->reset('key');
+
+        // dd($this->key);
+    }
 
     public function random()
     {
