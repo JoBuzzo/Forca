@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\WordController;
 use App\Http\Middleware\Admin;
+use App\Livewire\Gallow;
 use App\Livewire\Game;
 use App\Livewire\RandomWord;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/jogar', Game::class)->name('game')->middleware('auth');
 Route::get('/', RandomWord::class)->name('home')->middleware('auth');
+Route::get('/gallow', Gallow::class)->name('home');
 
 
 Route::get('/admin', DashboardController::class)

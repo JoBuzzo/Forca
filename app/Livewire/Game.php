@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 
 class Game extends Component
 {
+    #[Layout("layouts.app")]
     public function render()
     {
-        return view('livewire.game')->layout('layouts.app');
+        return view('livewire.game');
     }
 
     public $modal = false;

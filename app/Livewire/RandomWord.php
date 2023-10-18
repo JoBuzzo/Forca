@@ -7,13 +7,15 @@ use App\Models\Word;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class RandomWord extends Component
 {
+    #[Layout("layouts.app")]
     public function render()
     {
-        return view('livewire.random-word')->layout('layouts.app');
+        return view('livewire.random-word');
     }
 
 
