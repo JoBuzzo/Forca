@@ -15,6 +15,8 @@ class Gallow extends Component
     public int $lifes;
     public $correctLetters = array();
     public $errorLetters = array();
+    public $modal = false;
+    public $win;
     public function mount()
     {
         $content = file_get_contents(storage_path('app/public/substantivos.txt'));
@@ -24,7 +26,7 @@ class Gallow extends Component
 
         $this->wordArr = preg_split("/(?<!^)(?!$)/u", $this->word);
 
-        $this->lifes = 6;
+        $this->lifes = 10;
 
         if (in_array('-', $this->wordArr)) {
             $this->correctLetters[] = '-';
@@ -38,18 +40,18 @@ class Gallow extends Component
     public function render()
     {
         if (GallowService::finishedWin($this->wordArr, $this->correctLetters)) {
-
-            dd("Ganhou", $this->word); //Modal win
+            $this->modal = true;
+            $this->win = true;
         } else if (GallowService::finishedLost($this->lifes)) {
-
-            dd("Perdeu", $this->word); //Modal lost
+            $this->modal = true;
+            $this->win = false;
         }
 
         return view('livewire.gallow');
     }
     public function verifyLetter($letter)
     {
-        if (!in_array($letter, $this->correctLetters) && ! in_array($letter, $this->errorLetters)) {
+        if (!in_array($letter, $this->correctLetters) && !in_array($letter, $this->errorLetters)) {
             GallowService::checkLetterInWord($letter, $this->wordArr, $this->correctLetters, $this->errorLetters, $this->lifes);
         }
     }
