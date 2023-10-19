@@ -39,4 +39,15 @@ class GallowService
         return !($lifes >= 1);
     }
 
+    public static function tip($wordArr, &$correctLetters)
+    {
+        $key = array_rand($wordArr, 1);
+
+        while (in_array($wordArr[$key], $correctLetters)) {
+            $key = array_rand($wordArr, 1);
+        }
+
+        self::compareLetterWithAccent(Str::ascii($wordArr[$key]), $wordArr, $correctLetters);
+
+    }
 }

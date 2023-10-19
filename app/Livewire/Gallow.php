@@ -68,4 +68,19 @@ class Gallow extends Component
 
         $this->reset('key');
     }
+
+    public $countTips = 0;
+    public function tip()
+    {
+        if($this->countTips <  3){
+            if((count($this->wordArr) - count($this->correctLetters)) > 3 ){
+                GallowService::tip($this->wordArr, $this->correctLetters);
+                $this->countTips ++;
+            }else{
+                dd("Não pode dar dicas faltando apenas 3 letras");
+            }
+        }else {
+            dd("Você ja pediu muitas dicas");
+        }
+    }
 }
