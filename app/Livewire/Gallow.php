@@ -17,16 +17,39 @@ class Gallow extends Component
     public $errorLetters = array();
     public $modal = false;
     public $win;
+    public $numberImage = 0;
+    public $category;
     public function mount()
     {
-        $content = file_get_contents(storage_path('app/public/substantivos.txt'));
+        $rand = rand(1,4);
+
+        switch ($rand) {
+            case 1:
+                $content = file_get_contents(storage_path('app/public/substantivos.txt'));
+                $this->category = 'Substantivo';
+                break;
+            case 2:
+                $content = file_get_contents(storage_path('app/public/adjetivos.txt'));
+                $this->category = 'Adjetivo';
+                break;
+            case 3:
+                $content = file_get_contents(storage_path('app/public/verbos.txt'));
+                $this->category = 'Verbo';
+                break;
+            default:
+                $content = file_get_contents(storage_path('app/public/adverbios.txt'));
+                $this->category = 'Adverbio';
+                break;
+        }
+
+
         $words = explode(PHP_EOL, $content);
 
         $this->word = $words[rand(0, count($words))];
 
         $this->wordArr = preg_split("/(?<!^)(?!$)/u", $this->word);
 
-        $this->lifes = 10;
+        $this->lifes = 6;
 
         if (in_array('-', $this->wordArr)) {
             $this->correctLetters[] = '-';
@@ -47,6 +70,8 @@ class Gallow extends Component
             $this->win = false;
         }
 
+        $this->numberImage = 6 - $this->lifes;
+
         return view('livewire.gallow');
     }
     public function verifyLetter($letter)
@@ -56,7 +81,7 @@ class Gallow extends Component
         }
     }
 
-    #[Rule(['key' => ['required', 'min:1', 'max:1']], attribute: ['key' => 'letra'])]
+    #[Rule(['key' => ['required', 'min:1', 'max:1']], message: ['key.min'=> 'Só pode enviar uma letra por vez','key.max'=> 'Só pode enviar uma letra por vez', 'key.required'=> 'É obrigatório enviar uma letra'])]
     public $key = '';
     public function handleKeyDown()
     {
@@ -70,6 +95,7 @@ class Gallow extends Component
     }
 
     public $countTips = 0;
+    public $errorMessage = '';
     public function tip()
     {
         if($this->countTips <  3){
@@ -77,10 +103,10 @@ class Gallow extends Component
                 GallowService::tip($this->wordArr, $this->correctLetters);
                 $this->countTips ++;
             }else{
-                dd("Não pode dar dicas faltando apenas 3 letras");
+                session()->flash('error', 'Não pode dar dicas faltando apenas 3 letras');
             }
         }else {
-            dd("Você ja pediu muitas dicas");
+            session()->flash('error', 'Você ja pediu muitas dicas');
         }
     }
 }

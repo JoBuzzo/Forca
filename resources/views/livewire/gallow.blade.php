@@ -1,12 +1,15 @@
 <div>
     @if (!$modal)
         <div
-            class="flex flex-col items-center justify-center w-full gap-4 px-4 mt-4 xl:gap-24 @if ($modal) blur-3xl @endif">
+            class="flex flex-col items-center justify-center w-full gap-4 px-4 xl:gap-24 @if ($modal) blur-3xl @endif">
+            <div class="flex flex-col items-center justify-center w-full gap-2">
 
-            <div class="flex items-center justify-center w-full gap-2">
-                <span class="text-2xl font-extrabold">Vidas: {{ $lifes }}</span>
-                
-                <button type="button" class="flex items-center justify-start gap-2 cursor-pointer select-none hover:underline"
+                <img src="{{ asset("images/$numberImage.png") }}" alt="Boneco do jogo da forca" class="md:w-1/12">
+
+                <div class="flex items-center gap-3">
+                    <span class="text-xl font-bold">{{ $category }}</span>
+                    <button type="button"
+                    class="flex items-center justify-start gap-2 cursor-pointer select-none hover:underline"
                     wire:click='tip'>
                     <span>Pedir dica</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -17,6 +20,7 @@
                         </path>
                     </svg>
                 </button>
+                </div>
             </div>
 
             <div class="flex flex-col items-center justify-center gap-1 xl:flex-row ">
@@ -44,11 +48,16 @@
 </div>
 
 <div class="flex flex-col items-center justify-center w-full">
-    <div class="justify-start hidden p-1 md:flex">
+    <div class="relative justify-start hidden p-1 md:flex">
         <input wire:keydown.enter="handleKeyDown" wire:model="key"
             class="uppercase bg-transparent border-0 focus:border-0 focus:ring-0 ring-0" id="key"
-            placeholder='Digite uma letra' />
-
+            placeholder="Digite uma letra" autocomplete="off" />
+        @if ($errors->has('key'))
+            <span
+                class="absolute left-0 right-0 text-sm font-bold text-red-600 bottom-10 whitespace-nowrap">{{ $errors->first('key') }}</span>
+        @elseif(session('error'))
+            <span class="absolute left-0 right-0 text-sm font-bold text-red-600 bottom-10 whitespace-nowrap">{{ session('error') }}</span>
+        @endif
         @if (!$modal)
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
@@ -109,7 +118,8 @@
 </div>
 @else
 <div class="absolute bottom-0 left-0 right-0 flex items-center justify-center p-2 top-16">
-    <div class="flex flex-col items-center justify-center p-8 bg-black rounded-lg md:justify-normal md:items-stretch">
+    <div
+        class="flex flex-col items-center justify-center w-4/5 p-8 bg-black rounded-lg md:w-1/2 md:justify-normal md:items-stretch">
 
         <div class="flex items-center justify-start">
             @if ($win)
@@ -127,29 +137,33 @@
             </h1>
         </div>
 
-        <div class="flex flex-col items-start justify-start mt-10">
-            <h1 class="text-lg">A Letras erradas:</h1>
-            <div class="flex flex-wrap items-center justify-center">
-                @foreach ($errorLetters as $errorLetter)
-                    <div
-                        class="flex items-center justify-center w-8 h-8 text-xl text-center text-gray-300 uppercase bg-[#FF3C3C] border border-gray-700 rounded-md xl:h-12 xl:w-12">
-                        {{ $errorLetter }}
-                    </div>
-                @endforeach
+        @if (count($errorLetters) > 0)
+            <div class="flex flex-col items-start justify-start mt-10">
+                <h1 class="text-lg">Letras erradas:</h1>
+                <div class="flex flex-wrap items-center justify-center">
+                    @foreach ($errorLetters as $errorLetter)
+                        <div
+                            class="flex items-center justify-center w-8 h-8 text-xl text-center text-gray-300 uppercase bg-[#FF3C3C] border border-gray-700 rounded-md xl:h-12 xl:w-12">
+                            {{ $errorLetter }}
+                        </div>
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
-        <div class="flex flex-col items-start justify-start mt-10">
-            <h1 class="text-lg">A Letras corretas:</h1>
-            <div class="flex flex-wrap items-center justify-center">
-                @foreach ($correctLetters as $currectLetter)
-                    <div
-                        class="flex items-center justify-center w-8 h-8 text-xl text-center text-gray-300 uppercase border border-gray-700 rounded-md bg-secondary xl:h-12 xl:w-12">
-                        {{ $currectLetter }}
-                    </div>
-                @endforeach
+        @if (count($correctLetters) > 0)
+            <div class="flex flex-col items-start justify-start mt-10">
+                <h1 class="text-lg">Letras corretas:</h1>
+                <div class="flex flex-wrap items-center justify-center">
+                    @foreach ($correctLetters as $currectLetter)
+                        <div
+                            class="flex items-center justify-center w-8 h-8 text-xl text-center text-gray-300 uppercase border border-gray-700 rounded-md bg-secondary xl:h-12 xl:w-12">
+                            {{ $currectLetter }}
+                        </div>
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="flex flex-col items-center justify-center gap-4 mt-10 md:justify-start md:items-start">
             <p>
@@ -161,7 +175,8 @@
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md cursor-pointer bg-secondary hover:bg-secondary focus:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800">
                     Menu
                 </button>
-                <x-primary-button>Jogar</x-primary-button>
+                <a href="/gallow"
+                    class="items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md nline-flex bg-primary hover:bg-secondary focus:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800">Jogar</a>
             </div>
         </div>
     </div>
