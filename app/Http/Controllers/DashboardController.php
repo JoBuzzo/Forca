@@ -12,7 +12,6 @@ class DashboardController extends Controller
     public function __invoke()
     {
 
-        $users = User::paginate(5);
         $countUsers = User::count();
         $countWords = Word::count();
         $countCategories = Category::count();
@@ -23,7 +22,6 @@ class DashboardController extends Controller
                 'countUsers',
                 'countWords',
                 'countCategories',
-                'users'
             )
         );
     }

@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Models\Word;
+use App\Models\Category;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class IndexWord extends Component
+class IndexCategory extends Component
 {
     #[Url] 
     public $search = '';
@@ -15,13 +15,11 @@ class IndexWord extends Component
     public function render()
     {
         if(!$this->search){
-            $word = Word::paginate(5);
+            $categories = Category::paginate(5);
         }else{
-            $word = Word::where('word', 'like', "%".$this->search."%")->paginate(5);
+            $categories = Category::where('description', 'like', "%".$this->search."%")->paginate(5);
         }
-        return view('livewire.index-word',[
-            'words' => $word
-        ]);
+        return view('livewire.index-category', ['categories' => $categories]);
     }
 
     public function updatingSearch()
