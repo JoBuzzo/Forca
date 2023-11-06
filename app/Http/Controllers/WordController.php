@@ -10,12 +10,7 @@ class WordController extends Controller
 {
     public function index()
     {
-        $words = Word::paginate(5);
-
-        return view('word.index', [
-            'words' => $words,
-            
-        ]);
+        return view('word.index');
     }
 
     public function store(Request $request)
