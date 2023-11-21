@@ -21,9 +21,9 @@ return new class extends Migration
 
             $table->boolean('finalized')->default(false);
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->foreign('word_id')->references('id')->on('words');
+            $table->foreign('word_id')->references('id')->on('words')->onDelete('cascade');
 
             $table->primary(['user_id', 'word_id']);
 

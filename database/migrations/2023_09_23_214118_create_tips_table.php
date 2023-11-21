@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->longtext('tip');
 
-            $table->foreign('word_id')->references('id')->on('words');
+            $table->foreign('word_id')->references('id')->on('words')->onDelete('cascade');
 
             $table->timestamps();
         });

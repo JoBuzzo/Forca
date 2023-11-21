@@ -83,15 +83,25 @@
 
         <div class="flex flex-col items-center justify-center w-full">
             <div class="justify-start hidden p-1 lg:flex">
-                <x-text-input wire:keydown.enter="handleKeyDown" wire:model="key"
-                    class="uppercase placeholder:capitalize" name="key" id="key" placeholder='Letra' />
+                <input wire:keydown.enter="handleKeyDown" wire:model="key"
+                    class="uppercase bg-transparent border-0 focus:border-0 focus:ring-0 ring-0" id="key"
+                    placeholder='Letra' />
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
-                        document.getElementById('key').addEventListener('keydown', function(event) {
-                            if (event.key === 'Enter') {
+                        const inputField = document.getElementById('key');
 
-                                document.getElementById('key').value = '';
+                        function maintainFocus() {
+                            if (window.innerWidth > 768) {
+                                inputField.focus();
+                            }
+                        }
+
+                        setInterval(maintainFocus, 1);
+
+                        inputField.addEventListener('keydown', function(event) {
+                            if (event.key === 'Enter') {
+                                inputField.value = '';
                             }
                         });
                     });

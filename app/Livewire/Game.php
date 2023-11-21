@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 
 class Game extends Component
 {
+    #[Layout("layouts.app")]
     public function render()
     {
-        return view('livewire.game')->layout('layouts.app');
+        return view('livewire.game');
     }
 
     public $modal = false;
@@ -134,7 +136,7 @@ class Game extends Component
 
     protected function correctLetter($letter)
     {
-        $this->message = "<span class='text-sm text-green-600 md:text-base'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> está correta</span>";
+        $this->message = "<span class='text-sm text-green-600 md:text-base'>A letra <strong class='font-bold uppercase'>{$letter}</strong> está correta</span>";
         $this->correctLetters[] = $letter;
         Session::put('correctLetters', $this->correctLetters);
     }
@@ -144,7 +146,7 @@ class Game extends Component
         $this->errorLetters[] = $letter;
         Session::put('errorLetters', $this->errorLetters);
 
-        $this->message = "<span class='text-sm text-red-600 md:text-base'>A letra <strong class='text-4xl font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
+        $this->message = "<span class='text-sm text-red-600 md:text-base'>A letra <strong class='font-bold uppercase'>{$letter}</strong> não existe nesta palavra ou já foi inserida</span>";
 
         if (
             ($this->chances =  DB::table('user_word')
